@@ -253,11 +253,15 @@ class Hiscores(object):
 			'zulrah'
 		]
 
-
+		skillsStart = len(skills)
+		bountyHunterStart = skillsStart	+ 1
+		clueScrollsStart = bountyHunterStart + len(bountyHunter)
+		lmsStart = clueScrollsStart + len(clueScrolls)
+		bossStart = lmsStart + len(bosses)
 
 		counter = 0
 		# Skills
-		for i in range(len(skills)):
+		for i in range(skillsStart):
 			info = {}
 			info['rank']       = int(self.data[counter+3])
 			info['level']      = int(self.data[counter+4])
@@ -269,13 +273,41 @@ class Hiscores(object):
 			counter += 3
 
 		# Bounty Hunter
-		counter = len(skills) + 1
-		for i in range(len(skills) + 1, len(bountyHunter))
+		counter = bountyHunterStart
+		for i in range(bountyHunterStart, len(bountyHunter))
 			info = {}
 			info['rank']       = int(self.data[counter+3])
 			info['score']      = int(self.data[counter+4])
 			subset[bountyHunter[i]] = info
-			counter += 3	
+			counter += 2	
+
+		# Clue Scrolls
+		counter = clueScrollsStart
+		for i in range(clueScrollsStart, len(clueScrolls))
+			info = {}
+			info['rank']       = int(self.data[counter+3])
+			info['score']      = int(self.data[counter+4])
+			subset[clueScrolls[i]] = info
+			counter += 2	
+
+		# Last Man Standing
+		counter = lmsStart
+		for i in range(lmsStart, len(lastManStanding))
+			info = {}
+			info['rank']       = int(self.data[counter+3])
+			info['score']      = int(self.data[counter+4])
+			subset[lastManStanding[i]] = info
+			counter += 2	
+
+		# Bosses
+		counter = bossStart
+		for i in range(bossStart, len(bosses))
+			info = {}
+			info['rank']       = int(self.data[counter+3])
+			info['score']      = int(self.data[counter+4])
+			subset[bosses[i]] = info
+			counter += 2
+
 
 		# set stats dictionary
 		self.stats = subset
@@ -307,6 +339,123 @@ class Hiscores(object):
 				return self.stats[skill.lower()][stype.lower()]
 		except KeyError as KE:
 			print("ERROR: skill {} does not exist".format(KE))
+			exit(0)
+
+	def bounty(self, bounty, stype: str = 'score'):
+		"""bounty() method
+		
+		The bounty() method is a more dynamic, intuitive way to access stats
+		then the self.stats dictionary variable.  It allows for a user to
+		provide the bounty and stype (score, rank) of the bounty
+		they wish information on.
+		
+		Args:
+			bounty (str): The OSRS bounty to get information on
+			
+			stype (str): One of 'score', 'rank'
+			             to receive information for.  If not
+				     supplied, stype is assumed to be
+				     'score'
+		Returns:
+			self.stats[bounty][stype] (int): The info you requested
+		
+		"""
+		try:
+			if stype.lower() not in ['rank','score']:
+				raise "stype must be 'rank','score'"
+				exit(0)
+			else:
+				return self.stats[bounty.lower()][stype.lower()]
+		except KeyError as KE:
+			print("ERROR: bounty {} does not exist".format(KE))
+			exit(0)
+
+
+	def lastManStanding(self, lastManStanding, stype: str = 'score'):
+		"""lastManStanding() method
+		
+		The lastManStanding() method is a more dynamic, intuitive way to access stats
+		then the self.stats dictionary variable.  It allows for a user to
+		provide the lastManStanding and stype (score, rank) of the lastManStanding
+		they wish information on.
+		
+		Args:
+			lastManStanding (str): The OSRS lastManStanding to get information on
+			
+			stype (str): One of 'score', 'rank'
+			             to receive information for.  If not
+				     supplied, stype is assumed to be
+				     'score'
+		Returns:
+			self.stats[lastManStanding][stype] (int): The info you requested
+		
+		"""
+		try:
+			if stype.lower() not in ['rank','score']:
+				raise "stype must be 'rank','score'"
+				exit(0)
+			else:
+				return self.stats[lastManStanding.lower()][stype.lower()]
+		except KeyError as KE:
+			print("ERROR: lastManStanding {} does not exist".format(KE))
+			exit(0)
+
+	def clues(self, clues, stype: str = 'score'):
+		"""clues() method
+		
+		The clues() method is a more dynamic, intuitive way to access stats
+		then the self.stats dictionary variable.  It allows for a user to
+		provide the clues and stype (score, rank) of the clues
+		they wish information on.
+		
+		Args:
+			clues (str): The OSRS clues to get information on
+			
+			stype (str): One of 'score', 'rank'
+			             to receive information for.  If not
+				     supplied, stype is assumed to be
+				     'score'
+		Returns:
+			self.stats[clues][stype] (int): The info you requested
+		
+		"""
+		try:
+			if stype.lower() not in ['rank','score']:
+				raise "stype must be 'rank','score'"
+				exit(0)
+			else:
+				return self.stats[clues.lower()][stype.lower()]
+		except KeyError as KE:
+			print("ERROR: clues {} does not exist".format(KE))
+			exit(0)
+
+	def boss(self, boss, stype: str = 'score'):
+		"""boss() method
+		
+		The boss() method is a more dynamic, intuitive way to access stats
+		then the self.stats dictionary variable.  It allows for a user to
+		provide the boss and stype (score, rank) of the boss
+		they wish information on.
+		
+		Args:
+			boss (str): The OSRS boss to get information on
+			
+			stype (str): One of 'score', 'rank'
+			             to receive information for.  If not
+				     supplied, stype is assumed to be
+				     'score'
+		Returns:
+			self.stats[boss][stype] (int): The info you requested
+		
+		"""
+		try:
+			if stype.lower() not in ['rank','score']:
+				raise "stype must be 'rank','score'"
+				exit(0)
+			else:
+				return self.stats[boss.lower()][stype.lower()]
+		except KeyError as KE:
+			print("ERROR: boss {} does not exist".format(KE))
 			exit(0)
 
 	def error(self):
