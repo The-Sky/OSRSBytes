@@ -19,7 +19,7 @@ __copyright__ = 'Copyright 2019, Markis H. Cook'
 __credits__ = ['Markis Cook (Lead Programmer, Creator)']
 __license__ = 'EPL-2.0 (https://github.com/Coffee-fueled-deadlines/OSRSBytes/blob/master/LICENSE)'
 __version__ = '1.0.0.0'
-__maintainer__ = 'Markis Cook'
+__maintainer__ = 'Ralyks'
 __email__ = 'cookm0803@gmail.com'
 __status__ = 'Open'
 
@@ -163,41 +163,143 @@ class Hiscores(object):
 		subset['total']    = info
 
 		skills = [
-			  'attack',
-		          'defense',
-		          'strength',
-		          'hitpoints',
-		          'ranged',
-		          'prayer',
-		          'magic',
-		          'cooking',
-		          'woodcutting',
-		          'fletching',
-		          'fishing',
-		          'firemaking',
-		          'crafting',
-		          'smithing',
-		          'mining',
-		          'herblore',
-		          'agility',
-		          'thieving',
-		          'slayer',
-		          'farming',
-		          'runecrafting',
-		          'hunter',
-		          'construction'
-		           ]
+			'overall',
+			'attack',
+			'defense',
+			'strength',
+			'hitpoints',
+			'ranged',
+			'prayer',
+			'magic',
+			'cooking',
+			'woodcutting',
+			'fletching',
+			'fishing',
+			'firemaking',
+			'crafting',
+			'smithing',
+			'mining',
+			'herblore',
+			'agility',
+			'thieving',
+			'slayer',
+			'farming',
+			'runecrafting',
+			'hunter',
+			'construction'
+		]
+
+		bountyHunter = [
+			'hunter',
+			'rouge',
+		]
+
+		clueScrolls = [
+			'all',
+			'beginner',
+			'easy',
+			'medium',
+			'hard',
+			'elite',
+			'master'
+		]
+
+		lastManStanding = [
+			'rank'
+		]
+
+		bosses = [
+			'abyssal_sire',
+			'alchemical_hydra',
+			'barrows_chests',
+			'bryophyta',
+			'chambers_of_xeric',
+			'chambers_of_xeric:_challenge_mode',
+			'chaos_elemental',
+			'chaos_fanatic',
+			'commander_zilyana',
+			'corporeal_beast',
+			'crazy_archaeologist',
+			'dagannoth_prime',
+			'dagannoth_rex',
+			'dagannoth_supreme',
+			'deranged_archaeologist',
+			'general_graardor',
+			'giant_mole',
+			'grotesque_guardians',
+			'hespori',
+			'kalphite_queen',
+			'king_black_dragon',
+			'kraken',
+			'kreearra',
+			'kril_tsutsaroth',
+			'mimic',
+			'obor',
+			'sarachnis',
+			'scorpia',
+			'skotizo',
+			'the_gauntlet',
+			'the_corrupted_gauntlet',
+			'theatre_of_blood',
+			'thermonuclear_smoke_devil',
+			'tzkal-zuk',
+			'tztok-jad',
+			'venenatis',
+			'vetion',
+			'vorkath',
+			'wintertodt',
+			'zalcano',
+			'zulrah'
+		]
+
 		counter = 0
+		# Skills
 		for i in range(len(skills)):
 			info = {}
-			info['rank']       = int(self.data[counter+3])
-			info['level']      = int(self.data[counter+4])
-			info['experience'] = int(self.data[counter+5])
+			info['rank']       = int(self.data[counter])
+			info['level']      = int(self.data[counter+1])
+			info['experience'] = int(self.data[counter+2])
 			level = int(info['level']+1)
 			info['next_level_exp'] = math.floor(sum((math.floor(level + 300 * (2 ** (level / 7.0))) for level in range(1, level)))/4)
 			info['exp_to_next_level'] = int(info['next_level_exp'] - info['experience'])
 			subset[skills[i]] = info
 			counter += 3
+
+		# Bounty Hunter
+		counter += 2
+		for i in range(len(bountyHunter)):
+			info = {}
+			info['rank']       = int(self.data[counter])
+			info['score']      = int(self.data[counter+1])
+			subset[bountyHunter[i]] = info
+			counter += 2
+
+		# Clue Scrolls
+		for i in range(len(clueScrolls)):
+			info = {}
+			info['rank']       = int(self.data[counter])
+			info['score']      = int(self.data[counter+1])
+			subset[clueScrolls[i]] = info
+			counter += 2
+
+
+		# Last Man Standing
+		for i in range(len(lastManStanding)):
+			info = {}
+			info['rank']       = int(self.data[counter])
+			info['score']      = int(self.data[counter+1])
+			subset[lastManStanding[i]] = info
+			counter += 2
+
+
+		# Bosses
+		for i in range(len(bosses)):
+			info = {}
+			info['rank']       = int(self.data[counter])
+			info['score']      = int(self.data[counter+1])
+			subset[bosses[i]] = info
+			counter += 2
+
 
 		# set stats dictionary
 		self.stats = subset
@@ -229,6 +331,123 @@ class Hiscores(object):
 				return self.stats[skill.lower()][stype.lower()]
 		except KeyError as KE:
 			print("ERROR: skill {} does not exist".format(KE))
+			exit(0)
+
+	def bounty(self, bounty, stype: str = 'score'):
+		"""bounty() method
+		
+		The bounty() method is a more dynamic, intuitive way to access stats
+		then the self.stats dictionary variable.  It allows for a user to
+		provide the bounty and stype (score, rank) of the bounty
+		they wish information on.
+		
+		Args:
+			bounty (str): The OSRS bounty to get information on
+			
+			stype (str): One of 'score', 'rank'
+			             to receive information for.  If not
+				     supplied, stype is assumed to be
+				     'score'
+		Returns:
+			self.stats[bounty][stype] (int): The info you requested
+		
+		"""
+		try:
+			if stype.lower() not in ['rank','score']:
+				raise "stype must be 'rank','score'"
+				exit(0)
+			else:
+				return self.stats[bounty.lower()][stype.lower()]
+		except KeyError as KE:
+			print("ERROR: bounty {} does not exist".format(KE))
+			exit(0)
+
+
+	def lastManStanding(self, lastManStanding, stype: str = 'score'):
+		"""lastManStanding() method
+		
+		The lastManStanding() method is a more dynamic, intuitive way to access stats
+		then the self.stats dictionary variable.  It allows for a user to
+		provide the lastManStanding and stype (score, rank) of the lastManStanding
+		they wish information on.
+		
+		Args:
+			lastManStanding (str): The OSRS lastManStanding to get information on
+			
+			stype (str): One of 'score', 'rank'
+			             to receive information for.  If not
+				     supplied, stype is assumed to be
+				     'score'
+		Returns:
+			self.stats[lastManStanding][stype] (int): The info you requested
+		
+		"""
+		try:
+			if stype.lower() not in ['rank','score']:
+				raise "stype must be 'rank','score'"
+				exit(0)
+			else:
+				return self.stats[lastManStanding.lower()][stype.lower()]
+		except KeyError as KE:
+			print("ERROR: lastManStanding {} does not exist".format(KE))
+			exit(0)
+
+	def clues(self, clues, stype: str = 'score'):
+		"""clues() method
+		
+		The clues() method is a more dynamic, intuitive way to access stats
+		then the self.stats dictionary variable.  It allows for a user to
+		provide the clues and stype (score, rank) of the clues
+		they wish information on.
+		
+		Args:
+			clues (str): The OSRS clues to get information on
+			
+			stype (str): One of 'score', 'rank'
+			             to receive information for.  If not
+				     supplied, stype is assumed to be
+				     'score'
+		Returns:
+			self.stats[clues][stype] (int): The info you requested
+		
+		"""
+		try:
+			if stype.lower() not in ['rank','score']:
+				raise "stype must be 'rank','score'"
+				exit(0)
+			else:
+				return self.stats[clues.lower()][stype.lower()]
+		except KeyError as KE:
+			print("ERROR: clues {} does not exist".format(KE))
+			exit(0)
+
+	def boss(self, bosses, stype: str = 'score'):
+		"""boss() method
+		
+		The boss() method is a more dynamic, intuitive way to access stats
+		then the self.stats dictionary variable.  It allows for a user to
+		provide the boss and stype (score, rank) of the boss
+		they wish information on.
+		
+		Args:
+			boss (str): The OSRS boss to get information on
+			
+			stype (str): One of 'score', 'rank'
+			             to receive information for.  If not
+				     supplied, stype is assumed to be
+				     'score'
+		Returns:
+			self.stats[boss][stype] (int): The info you requested
+		
+		"""
+		try:
+			if stype.lower() not in ['rank','score']:
+				raise "stype must be 'rank','score'"
+				exit(0)
+			else:
+				return self.stats[bosses.lower()][stype.lower()]
+		except KeyError as KE:
+			print("ERROR: boss {} does not exist".format(KE))
 			exit(0)
 
 	def error(self):
