@@ -274,7 +274,7 @@ class Hiscores(object):
 
 		# Bounty Hunter
 		counter = bountyHunterStart
-		for i in range(bountyHunterStart, len(bountyHunter))
+		for i in range(bountyHunterStart, len(bountyHunter)):
 			info = {}
 			info['rank']       = int(self.data[counter+3])
 			info['score']      = int(self.data[counter+4])
@@ -283,7 +283,7 @@ class Hiscores(object):
 
 		# Clue Scrolls
 		counter = clueScrollsStart
-		for i in range(clueScrollsStart, len(clueScrolls))
+		for i in range(clueScrollsStart, len(clueScrolls)):
 			info = {}
 			info['rank']       = int(self.data[counter+3])
 			info['score']      = int(self.data[counter+4])
@@ -292,7 +292,7 @@ class Hiscores(object):
 
 		# Last Man Standing
 		counter = lmsStart
-		for i in range(lmsStart, len(lastManStanding))
+		for i in range(lmsStart, len(lastManStanding)):
 			info = {}
 			info['rank']       = int(self.data[counter+3])
 			info['score']      = int(self.data[counter+4])
@@ -301,7 +301,7 @@ class Hiscores(object):
 
 		# Bosses
 		counter = bossStart
-		for i in range(bossStart, len(bosses))
+		for i in range(bossStart, len(bosses)):
 			info = {}
 			info['rank']       = int(self.data[counter+3])
 			info['score']      = int(self.data[counter+4])
