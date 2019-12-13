@@ -163,31 +163,100 @@ class Hiscores(object):
 		subset['total']    = info
 
 		skills = [
-			  'attack',
-		          'defense',
-		          'strength',
-		          'hitpoints',
-		          'ranged',
-		          'prayer',
-		          'magic',
-		          'cooking',
-		          'woodcutting',
-		          'fletching',
-		          'fishing',
-		          'firemaking',
-		          'crafting',
-		          'smithing',
-		          'mining',
-		          'herblore',
-		          'agility',
-		          'thieving',
-		          'slayer',
-		          'farming',
-		          'runecrafting',
-		          'hunter',
-		          'construction'
-		           ]
+			'attack',
+			'defense',
+			'strength',
+			'hitpoints',
+			'ranged',
+			'prayer',
+			'magic',
+			'cooking',
+			'woodcutting',
+			'fletching',
+			'fishing',
+			'firemaking',
+			'crafting',
+			'smithing',
+			'mining',
+			'herblore',
+			'agility',
+			'thieving',
+			'slayer',
+			'farming',
+			'runecrafting',
+			'hunter',
+			'construction'
+		]
+
+		bountyHunter = [
+			'hunter',
+			'rouge',
+		]
+
+		clueScrolls = [
+			'all',
+			'beginner',
+			'easy',
+			'medium',
+			'hard',
+			'elite',
+			'master'
+		]
+
+		lastManStanding = [
+			'rank'
+		]
+
+		bosses = [
+			'abyssal_sire',
+			'alchemical_hydra',
+			'barrows_chests',
+			'bryophyta',
+			'callisto',
+			'cerberus',
+			'chambers_of_xeric',
+			'chambers_of_xeric:_challenge_mode',
+			'chaos_elemental',
+			'chaos_fanatic',
+			'commander_zilyana',
+			'corporeal_beast',
+			'crazy_archaeologist',
+			'dagannoth_prime',
+			'dagannoth_rex',
+			'dagannoth_supreme',
+			'deranged_archaeologist',
+			'general_graardor',
+			'giant_mole',
+			'grotesque_guardians',
+			'hespori',
+			'kalphite_queen',
+			'king_black_dragon',
+			'kraken',
+			'kreearra',
+			'kril_tsutsaroth',
+			'mimic',
+			'obor',
+			'sarachnis',
+			'scorpia',
+			'skotizo',
+			'the_gauntlet',
+			'the_corrupted_gauntlet',
+			'theatre_of_blood',
+			'thermonuclear_smoke_devil',
+			'tzkal-zuk',
+			'tztok-jad',
+			'venenatis',
+			'vetion',
+			'vorkath',
+			'wintertodt',
+			'zalcano',
+			'zulrah'
+		]
+
+
+
 		counter = 0
+		# Skills
 		for i in range(len(skills)):
 			info = {}
 			info['rank']       = int(self.data[counter+3])
@@ -198,6 +267,15 @@ class Hiscores(object):
 			info['exp_to_next_level'] = int(info['next_level_exp'] - info['experience'])
 			subset[skills[i]] = info
 			counter += 3
+
+		# Bounty Hunter
+		counter = len(skills) + 1
+		for i in range(len(skills) + 1, len(bountyHunter))
+			info = {}
+			info['rank']       = int(self.data[counter+3])
+			info['score']      = int(self.data[counter+4])
+			subset[bountyHunter[i]] = info
+			counter += 3	
 
 		# set stats dictionary
 		self.stats = subset
