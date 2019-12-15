@@ -90,9 +90,10 @@ class Hiscores(object):
 			                        of whether or not the query to the API returned
 						successfully or not.
 		"""
+
 		conn = http.client.HTTPSConnection('secure.runescape.com')
 		if self.accountType == 'N':
-			conn.request("GET", "/m=hiscore_oldschool/index_lite.ws?player={}".format(self.username))
+			print("https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player={}".format(self.username))
 			self.response = conn.getresponse()
 			self.status = self.response.status
 		elif self.accountType == 'IM':
@@ -163,7 +164,6 @@ class Hiscores(object):
 		subset['total']    = info
 
 		skills = [
-			'overall',
 			'attack',
 			'defense',
 			'strength',
@@ -190,8 +190,8 @@ class Hiscores(object):
 		]
 
 		bountyHunter = [
-			'hunter',
-			'rouge',
+			'bountyHunter',
+			'bountyRouge',
 		]
 
 		clueScrolls = [
@@ -256,9 +256,9 @@ class Hiscores(object):
 		# Skills
 		for i in range(len(skills)):
 			info = {}
-			info['rank']       = int(self.data[counter])
-			info['level']      = int(self.data[counter+1])
-			info['experience'] = int(self.data[counter+2])
+			info['rank']       = int(self.data[counter+3])
+			info['level']      = int(self.data[counter+4])
+			info['experience'] = int(self.data[counter+5])
 			level = int(info['level']+1)
 			info['next_level_exp'] = math.floor(sum((math.floor(level + 300 * (2 ** (level / 7.0))) for level in range(1, level)))/4)
 			info['exp_to_next_level'] = int(info['next_level_exp'] - info['experience'])
@@ -300,7 +300,7 @@ class Hiscores(object):
 			subset[bosses[i]] = info
 			counter += 2
 
-
+		#print(subset)
 		# set stats dictionary
 		self.stats = subset
 
@@ -330,7 +330,7 @@ class Hiscores(object):
 			else:
 				return self.stats[skill.lower()][stype.lower()]
 		except KeyError as KE:
-			print("ERROR: skill {} does not exist".format(KE))
+			print("ERROR: skill {} {} does not exist".format(skill, KE))
 			exit(0)
 
 	def bounty(self, bounty, stype: str = 'score'):
