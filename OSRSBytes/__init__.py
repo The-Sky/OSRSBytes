@@ -93,7 +93,7 @@ class Hiscores(object):
 
 		conn = http.client.HTTPSConnection('secure.runescape.com')
 		if self.accountType == 'N':
-			print("https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player={}".format(self.username))
+			conn.request("GET", "/m=hiscore_oldschool/index_lite.ws?player={}".format(self.username))
 			self.response = conn.getresponse()
 			self.status = self.response.status
 		elif self.accountType == 'IM':
@@ -293,10 +293,12 @@ class Hiscores(object):
 
 
 		# Bosses
+		counter += 3
 		for i in range(len(bosses)):
 			info = {}
 			info['rank']       = int(self.data[counter])
 			info['score']      = int(self.data[counter+1])
+			print(info)
 			subset[bosses[i]] = info
 			counter += 2
 
